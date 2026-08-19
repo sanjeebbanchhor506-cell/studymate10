@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyMate 10</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background: #f4f6fb;
+    color: #222;
+  }
+  header {
+    background: #2e74b5;
+    color: white;
+    padding: 18px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  .home-btn {
+    display: block;
+    width: 100%;
+    background: white;
+    border: none;
+    border-radius: 12px;
+    padding: 22px;
+    margin: 14px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2e74b5;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .back-btn {
+    background: #eee;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  .note-item {
+    background: white;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .note-item h3 {
+    margin: 0 0 6px 0;
+    color: #2e74b5;
+  }
+  .q-card {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .q-card p.question { font-weight: 600; margin-bottom: 10px; }
+  .option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 6px 0;
+    font-size: 15px;
+  }
+  .option.correct { background: #b6f0b6; }
+  .option.wrong { background: #f5b6b6; }
+  .hidden { display: none; }
+  #score {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 16px 0;
+    color: #2e74b5;
+  }
+</style>
+</head>
+<body>
+
+<header>StudyMate 10</header>
+
+<div class="container">
+
+  <!-- HOME SCREEN -->
+  <div id="home">
+    <button class="home-btn" onclick="showScreen('notes')">📘 Notes</button>
+    <button class="home-btn" onclick="showScreen('mcq')">📝 MCQ Practice</button>
+  </div>
+
+  <!-- NOTES SCREEN -->
+  <div id="notes" class="hidden">
+    <button class="back-btn" onclick="showScreen('home')">⬅ Back</button>
+    <div id="notes-list"></div>
+  </div>
+
+  <!-- MCQ SCREEN -->
+  <div id="mcq" class="hidden">
+    <button class="back-btn" onclick="showScreen('home')">⬅ Back</button>
+    <div id="score"></div>
+    <div id="mcq-list"></div>
+  </div>
+
+</div>
+
+<script>
+// ---------- SCREEN SWITCHING ----------
+function showScreen(id) {
+  ['home', 'notes', 'mcq'].forEach(s => {
+    document.getElementById(s).classList.add('hidden');
+  });
+  document.getElementById(id).classList.remove('hidden');
+  if (id === 'notes') renderNotes();
+  if (id === 'mcq') renderMCQ();
+}
+
+// ---------- NOTES DATA ----------
+// Add more notes here later — just copy the { title, content } format
+const notesData = [
+  {
+    title: "ବନ୍ଦେ ଉତ୍କଳ ଜନନୀ - Kavi Parichay",
+    content: "Kavi: Laxmikanta Mohapatra (Kantakavi). Janma-Mrutyu san: 1888-1953. Janma jilla: Cuttack (Baleswar)."
+  },
+  {
+    title: "Kavita Bishoy",
+    content: "Ei kavitare kavi Odisha Maa'nku pranam janai tanka soundarya, nadi, parbat, o gaurab bakhyan karichanti."
+  }
+];
+
+function renderNotes() {
+  const el = document.getElementById('notes-list');
+  el.innerHTML = notesData.map(n => `
+    <div class="note-item">
+      <h3>${n.title}</h3>
+      <p>${n.content}</p>
+    </div>
+  `).join('');
+}
+
+// ---------- MCQ DATA ----------
+// Add more questions here later — same format: question, options, answer index (0-3)
+const mcqData = [
+  {
+    q: `"ବନ୍ଦେ ଉତ୍କଳ ଜନନୀ" କବିତାର କବି କିଏ?`,
+    options: ["ଫକୀରମୋହନ ସେନାପତି", "ଲକ୍ଷ୍ମୀକାନ୍ତ ମହାପାତ୍ର", "ରାଧାନାଥ ରାୟ", "ଗଙ୍ଗାଧର ମେହେର"],
+    answer: 1
+  },
+  {
+    q: "ଲକ୍ଷ୍ମୀକାନ୍ତ ମହାପାତ୍ରଙ୍କୁ କେଉଁ ନାମରେ ଡକାଯାଏ?",
+    options: ["ସତ୍ୟକବି", "କାନ୍ତକବି", "ଉପେନ୍ଦ୍ର ଭଞ୍ଜ", "ବିଦ୍ୟାପତି"],
+    answer: 1
+  },
+  {
+    q: "କବିଙ୍କର ଜନ୍ମ-ମୃତ୍ୟୁ ସନ କେତେ?",
+    options: ["1888-1953", "1878-1943", "1898-1963", "1868-1933"],
+    answer: 0
+  },
+  {
+    q: `"ପୂତ" ଶବ୍ଦର ଅର୍ଥ କ'ଣ?`,
+    options: ["ଶୋଭାପାଏ", "କବିବଂଶ", "ମୁକୁତା", "ପବିତ୍ର"],
+    answer: 3
+  },
+  {
+    q: `"ପୟୋଧୁ" ଶବ୍ଦର ଅର୍ଥ କ'ଣ?`,
+    options: ["ତୀର୍ଥସ୍ଥାନ ସମୂହରେ ପରିପୂର୍ଣ୍ଣ", "ଯୋଗ୍ୟ ସନ୍ତାନ", "ଢେଉ", "ସମୁଦ୍ର"],
+    answer: 3
+  }
+];
+
+let userAnswers = {};
+
+function renderMCQ() {
+  userAnswers = {};
+  updateScore();
+  const el = document.getElementById('mcq-list');
+  el.innerHTML = mcqData.map((item, qi) => `
+    <div class="q-card">
+      <p class="question">${qi + 1}. ${item.q}</p>
+      ${item.options.map((opt, oi) => `
+        <button class="option" id="q${qi}-o${oi}" onclick="selectAnswer(${qi}, ${oi})">${opt}</button>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function selectAnswer(qi, oi) {
+  if (userAnswers[qi] !== undefined) return; // already answered
+  userAnswers[qi] = oi;
+  const correct = mcqData[qi].answer;
+  document.getElementById(`q${qi}-o${oi}`).classList.add(oi === correct ? 'correct' : 'wrong');
+  if (oi !== correct) {
+    document.getElementById(`q${qi}-o${correct}`).classList.add('correct');
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const total = mcqData.length;
+  const answered = Object.keys(userAnswers).length;
+  let correct = 0;
+  Object.keys(userAnswers).forEach(qi => {
+    if (userAnswers[qi] === mcqData[qi].answer) correct++;
+  });
+  document.getElementById('score').innerText = `Score: ${correct} / ${total} (Answered: ${answered}/${total})`;
+}
+</script>
+
+</body>
+                                                                  </html>
+                                                                  
